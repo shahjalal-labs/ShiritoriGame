@@ -1,0 +1,33 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shiritori Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>Shiritori Game</h1>
+    <div class="container">
+      <div class="player-box" id="box1">
+        <h2>Player 1</h2>
+        <input id="input1" type="text" />
+        <button id="submit1">Submit</button>
+        <p>Score: <span id="score1">0</span></p>
+        <p>Timer: <span id="timer1">10</span></p>
+        <p class="message" id="msg1"></p>
+        <ul id="history1"></ul>
+      </div>
+      <div class="player-box" id="box2">
+        <h2>Player 2</h2>
+        <input id="input2" type="text" />
+        <button id="submit2">Submit</button>
+        <p>Score: <span id="score2">0</span></p>
+        <p>Timer: <span id="timer2">-</span></p>
+        <p class="message" id="msg2"></p>
+        <ul id="history2"></ul>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
