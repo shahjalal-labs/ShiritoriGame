@@ -5,34 +5,36 @@ export const checkWord = async (word) => {
     const res = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
     );
-    const data = await res.json();
+    let data = null;
+    try {
+      data = await res.json();
+    } catch (_) {
+      // ignore json parse error
+    }
 
-    if (data.title === "No Definitions Found") {
+    // not found → show swal and return false
+    if (!res.ok) {
+      const message =
+        data?.message ||
+        "Sorry pal, we couldn't find definitions for the word you were looking for.";
       Swal.fire({
         icon: "error",
         title: "Invalid Word",
-        text: data.message,
+        text: message,
         confirmButtonColor: "#6366f1",
         background: "#0f172a",
         color: "#f1f5f9",
       });
-      return false; // ❌ invalid word
-    } else {
-      Swal.fire({
-        icon: "success",
-        title: `Valid Word: ${word}`,
-        text: "Meaning fetched successfully!",
-        confirmButtonColor: "#22c55e",
-        background: "#0f172a",
-        color: "#f1f5f9",
-      });
-      return true; // ✅ valid word
+      return false;
     }
+
+    // found → no swal here; just return true
+    return true;
   } catch (err) {
     Swal.fire({
       icon: "error",
-      title: "Error",
-      text: "Something went wrong while checking the word.",
+      title: "Network Error",
+      text: "Could not verify the word. Please check your connection.",
       confirmButtonColor: "#ef4444",
       background: "#0f172a",
       color: "#f1f5f9",
