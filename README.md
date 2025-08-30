@@ -5,7 +5,7 @@
 | 📝 **Detail**           | 📌 **Value**                                                                                                         |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | 🔗 **GitHub URL**       | [https://github.com/shahjalal-labs/ShiritoriGame](https://github.com/shahjalal-labs/ShiritoriGame)                   |
-| 🌐 **Live Site**        | [https://shiritorigame.surge.sh](https://shiritorigame.surge.sh)                                                     |
+| 🌐 **Live Site**        | [https://shahjalal-labs.github.io/ShiritoriGame/](https://shahjalal-labs.github.io/ShiritoriGame/)                   |
 | 💻 **Portfolio GitHub** | [https://github.com/shahjalal-labs/shahjalal-portfolio-v2](https://github.com/shahjalal-labs/shahjalal-portfolio-v2) |
 | 🌐 **Portfolio Live**   | [http://shahjalal-labs.surge.sh](http://shahjalal-labs.surge.sh)                                                     |
 | 📁 **Directory**        | `/run/media/sj/developer/web/L1B11/career/jobTask/ShiritoriGame`                                                     |
