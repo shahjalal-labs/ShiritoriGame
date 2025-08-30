@@ -5,21 +5,21 @@ function ShiritoriGame() {
   const [wordHistory, setWordHistory] = useState([]);
   const [scores, setScores] = useState({ player1: 0, player2: 0 });
   const [inputWord, setInputWord] = useState("");
-  const [timer, setTimer] = useState(20); // seconds per turn
+  const [timer, setTimer] = useState(20);
 
-  // Switch player function
+  // Switch player
   const switchPlayer = () => {
     setCurrentPlayer((prev) => (prev === 1 ? 2 : 1));
-    setTimer(20); // reset timer for new turn
+    setTimer(20);
   };
 
-  // Validate word logic (frontend example)
+  // Word validation
   const validateWord = (word) => {
-    if (word.length < 4) return false; // minimum 4 letters
-    if (wordHistory.includes(word.toLowerCase())) return false; // no repeats
+    if (word.length < 4) return false;
+    if (wordHistory.includes(word.toLowerCase())) return false;
     if (wordHistory.length > 0) {
       const lastWord = wordHistory[wordHistory.length - 1];
-      if (word[0].toLowerCase() !== lastWord.slice(-1)) return false; // check last letter
+      if (word[0].toLowerCase() !== lastWord.slice(-1)) return false;
     }
     return true;
   };
@@ -29,7 +29,6 @@ function ShiritoriGame() {
     const word = inputWord.trim();
     const isValid = validateWord(word);
 
-    // Update score
     setScores((prev) => ({
       ...prev,
       [`player${currentPlayer}`]:
@@ -40,23 +39,22 @@ function ShiritoriGame() {
       setWordHistory([...wordHistory, word.toLowerCase()]);
     }
 
-    setInputWord(""); // clear input
-    switchPlayer(); // switch player after submission
+    setInputWord("");
+    switchPlayer();
   };
 
-  // Countdown timer effect
+  // Timer countdown
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => {
         if (prev === 1) {
-          // Time over → subtract point and switch
           setScores((prevScores) => ({
             ...prevScores,
             [`player${currentPlayer}`]:
               prevScores[`player${currentPlayer}`] - 1,
           }));
           switchPlayer();
-          return 20; // reset timer for new player
+          return 20;
         }
         return prev - 1;
       });
@@ -66,28 +64,95 @@ function ShiritoriGame() {
   }, [currentPlayer]);
 
   return (
-    <div>
-      <h2>Current Player: Player {currentPlayer}</h2>
-      <h3>Timer: {timer}s</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={inputWord}
-          onChange={(e) => setInputWord(e.target.value)}
-          placeholder="Enter your word"
-          required
-        />
-        <button type="submit">Submit</button>
-      </form>
-      <h3>Scores:</h3>
-      <p>Player 1: {scores.player1}</p>
-      <p>Player 2: {scores.player2}</p>
-      <h3>Word History:</h3>
-      <ul>
-        {wordHistory.map((w, i) => (
-          <li key={i}>{w}</li>
-        ))}
-      </ul>
+    <div className="min-h-screen bg-base-200 p-6">
+      <h1 className="text-3xl font-bold text-center mb-6 text-primary">
+        Shiritori Game 🎮
+      </h1>
+
+      {/* Two Player Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Player 1 */}
+        <div
+          className={`card shadow-xl p-6 ${
+            currentPlayer === 1 ? "border-4 border-primary" : ""
+          }`}
+        >
+          <h2 className="text-xl font-bold mb-2 flex justify-between">
+            Player 1{" "}
+            <span className="badge badge-primary">Score: {scores.player1}</span>
+          </h2>
+
+          {currentPlayer === 1 ? (
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <input
+                type="text"
+                value={inputWord}
+                onChange={(e) => setInputWord(e.target.value)}
+                className="input input-bordered w-full"
+                placeholder="Enter your word"
+                required
+              />
+              <button className="btn btn-primary">Submit</button>
+            </form>
+          ) : (
+            <p className="text-gray-400 italic">Waiting for turn...</p>
+          )}
+        </div>
+
+        {/* Player 2 */}
+        <div
+          className={`card shadow-xl p-6 ${
+            currentPlayer === 2 ? "border-4 border-secondary" : ""
+          }`}
+        >
+          <h2 className="text-xl font-bold mb-2 flex justify-between">
+            Player 2{" "}
+            <span className="badge badge-secondary">
+              Score: {scores.player2}
+            </span>
+          </h2>
+
+          {currentPlayer === 2 ? (
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <input
+                type="text"
+                value={inputWord}
+                onChange={(e) => setInputWord(e.target.value)}
+                className="input input-bordered w-full"
+                placeholder="Enter your word"
+                required
+              />
+              <button className="btn btn-secondary">Submit</button>
+            </form>
+          ) : (
+            <p className="text-gray-400 italic">Waiting for turn...</p>
+          )}
+        </div>
+      </div>
+
+      {/* Timer */}
+      <div className="text-center mb-6">
+        <p className="text-lg">
+          ⏳ <span className="font-bold">{timer}s</span> left for Player{" "}
+          {currentPlayer}
+        </p>
+      </div>
+
+      {/* Word History */}
+      <div className="card bg-base-100 shadow-xl p-6">
+        <h3 className="text-xl font-bold mb-3">Word History</h3>
+        {wordHistory.length === 0 ? (
+          <p className="italic text-gray-400">No words yet</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {wordHistory.map((w, i) => (
+              <span key={i} className="badge badge-outline badge-lg px-4 py-2">
+                {w}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
